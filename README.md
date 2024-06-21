@@ -8,7 +8,7 @@
  - `gym==0.10.0`
 
 ### 多智能体强化学习仿真环境配置
-在上述建立的conda环境中，到[github地址，下载到工程文件夹内](https://github.com/openai/multiagent-particle-envs)下载代码到功臣文件夹中，`cd multiagent-particle-envs`使用`pip install -e .`安装multiagent-particle-envs
+在上述建立的conda环境中，到[仿真环境github地址](https://github.com/openai/multiagent-particle-envs)下载代码到工程文件夹中，`cd multiagent-particle-envs`使用`pip install -e .`安装multiagent-particle-envs
 
 
 ## 1.MADDPG算法
