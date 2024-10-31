@@ -1,59 +1,15 @@
 # -*- coding: utf-8 -*-
-# @Date       : 2024/5/2321:07
+# @Date       : 2024/5/23 21:07
 # @Auther     : Wang.zr
 # @File name  : replaybuffer.py
 # @Description:
-from collections import deque
-import tensorflow as tf
 import random
 import numpy as np
-
-
-class ReplayBufferTensor(object):
-
-    def __init__(self, size):
-        self.deque = deque(maxlen=size)
-
-    def add(self, state, action, reward, next_state, done):
-        state = tf.cast(state, tf.float64)
-        action = tf.cast(action, tf.float64)
-        reward = tf.cast(reward, tf.float64)
-        next_state = tf.cast(next_state, tf.float64)
-        done = tf.cast(done, tf.float64)
-        state = tf.expand_dims(state, axis=0)
-        action = tf.expand_dims(action, axis=0)
-        reward = tf.expand_dims(reward, axis=0)
-        next_state = tf.expand_dims(next_state, axis=0)
-
-        done = tf.expand_dims(done, axis=0)
-        self.deque.append((state, action, reward, next_state, done))
-
-    def sample(self, batch_size):
-        samples = random.sample(self.deque, batch_size)
-        states, actions, rewards, next_states, dones = zip(*samples)
-        return states, actions, rewards, next_states, dones
-
-    def sample_from_index(self, index):
-        """根据给定的索引列表,从 replay buffer 中采样数据"""
-        states = tf.concat([self.deque[i][0] for i in index], axis=0)
-        actions = tf.concat([self.deque[i][1] for i in index], axis=0)
-        rewards = tf.concat([self.deque[i][2] for i in index], axis=0)
-        next_states = tf.concat([self.deque[i][3] for i in index], axis=0)
-        dones = tf.concat([self.deque[i][4] for i in index], axis=0)
-
-        return states, actions, rewards, next_states, dones
-
-    def gen_index(self, batch_size):
-        return random.sample(range(len(self.deque)), batch_size)
-
-    def __len__(self):
-        return len(self.deque)
 
 
 class ReplayBuffer(object):
     def __init__(self, size):
         """Create Prioritized Replay buffer.
-
         Parameters
         ----------
         size: int
@@ -134,6 +90,3 @@ class ReplayBuffer(object):
     def collect(self):
         return self.sample(-1)
 
-
-def create_replaybuffer_from_tf(size):
-    pass

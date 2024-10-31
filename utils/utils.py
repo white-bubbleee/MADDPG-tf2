@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 
 def save_model(arglist, exp_time, times, chechpoint):
-    save_exp_dir = arglist.save_dir + arglist.exp_name + '/' + exp_time + '/'
+    save_exp_dir = arglist.save_model_dir + arglist.exp_name + '/' + exp_time + '/'
     if not os.path.exists(save_exp_dir):
         os.makedirs(save_exp_dir)
     save_cur_dir = save_exp_dir + str(times) + '/'

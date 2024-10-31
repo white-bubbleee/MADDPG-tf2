@@ -1,18 +1,15 @@
-import argparse
 import numpy as np
-
 import time
 import pickle
 import datetime
 import os
-
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
+
 from maddpg.trainer.maddpg import MADDPGTrainer
 from base.trainer import MultiTrainerContainer
-from base.args_config import get_config
-
-from utils.utils import save_model, load_model, load_data2_plot
+from base.args_config import parse_args_maddpg
+from utils.utils import load_data2_plot
 from utils.logger import set_logger
 
 logger = set_logger(__name__, output_file="train_maddpg.log")
@@ -56,10 +53,10 @@ def train(arglist):
     curtime = datetime.datetime.now()
     cur_dir = f"{curtime.strftime('%Y-%m-%d-%H-%M-%S')}"
     logger.info(f"Training start at {cur_dir}")
-    arglist.save_dir = arglist.save_dir + arglist.exp_name + '/' + arglist.scenario + '/' + cur_dir
-    logger.info(f"Save dir: {arglist.save_dir}")
-    if not os.path.exists(arglist.save_dir):
-        os.makedirs(arglist.save_dir)
+    arglist.save_model_dir = arglist.save_model_dir + arglist.exp_name + '/' + arglist.scenario + '/' + cur_dir
+    logger.info(f"Save dir: {arglist.save_model_dir}")
+    if not os.path.exists(arglist.save_model_dir):
+        os.makedirs(arglist.save_model_dir)
 
     env = make_env(arglist.scenario, arglist, arglist.benchmark)
     # Create agent trainers
@@ -75,7 +72,7 @@ def train(arglist):
 
     # Load previous results, if necessary
     if arglist.load_dir == "":
-        arglist.load_dir = arglist.save_dir
+        arglist.load_dir = arglist.save_model_dir
     checkpoint_manager = tf.train.CheckpointManager(checkpoint, arglist.load_dir, max_to_keep=5)
     if arglist.display or arglist.restore or arglist.benchmark:
         logger.info('Loading previous state...')
@@ -185,5 +182,5 @@ def train(arglist):
 
 
 if __name__ == '__main__':
-    arglist = get_config('maddpg')
+    arglist = parse_args_maddpg()
     train(arglist)

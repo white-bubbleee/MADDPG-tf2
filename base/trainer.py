@@ -18,17 +18,6 @@ class ACAgent:
         raise NotImplementedError
 
 
-class NormalAgent:
-
-    def __init__(self, name, action_dim, obs_dim, agent_index, args):
-        pass
-
-    def build_policy(self):
-        raise NotImplementedError
-
-    def build_critic(self):
-        raise NotImplementedError
-
 
 class Trainer:
 
