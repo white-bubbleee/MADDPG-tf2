@@ -1,5 +1,7 @@
 # MADDPG-tf2仓库
+基于tensorflow-v2实现的多智能体强化学习算法MADDPG
 
+如果需要pytorch版本的MADDPG，请移步[MADDPG-torch](https://github.com/white-bubbleee/MADDPG-torch)
 ## 0.环境配置
 ### conda环境配置
  - `python==3.7`
